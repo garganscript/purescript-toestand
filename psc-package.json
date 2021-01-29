@@ -1,0 +1,13 @@
+{
+  "name": "toestand",
+  "set": "local",
+  "source": ".psc-package",
+  "depends":
+    [ "effect"
+    , "reactix"
+    , "prelude"
+    , "psci-support"
+    , "spec"
+    , "spec-mocha"
+    ]
+}

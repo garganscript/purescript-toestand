@@ -1,0 +1,28 @@
+{
+  "name": "purescript-toestand",
+  "version": "0.1.0",
+  "description": "A simple state management solution for reactix.",
+  "scripts": {
+    "rebase-set": "spago upgrade-set && spago psc-package-insdhall",
+    "rebuild-set": "spago psc-package-insdhall",
+    "install-ps": "psc-package install",
+    "repl": "pulp --psc-package repl",
+    "build": "pulp browserify -I test --main Test.Main > output/bundle.js",
+    "test": "karma start"
+  },
+  "author": "James Laver",
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-cli": "^2.0.0",
+    "karma-mocha": "^1.3.0",
+    "mocha": "^6.2.2",
+    "psc-package": "^3.0.1",
+    "pulp": "^13.0.0",
+    "purescript": "^0.13.8",
+    "react": "^17.0.1",
+    "spago": "^0.10.0"
+  },
+  "dependencies": {}
+}
