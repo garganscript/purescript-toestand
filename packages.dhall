@@ -144,6 +144,8 @@ let additions =
       , reactix =
           mkPackage
             [ "prelude"
+            , "dom-simple"
+            , "ffi-simple"
             , "effect"
             , "maybe"
             , "functions"
@@ -151,7 +153,7 @@ let additions =
             , "unsafe-coerce"
             ]
             "https://github.com/poorscript/purescript-reactix"
-            "v0.4.8"
+            "v0.4.11"
       , inflection =
           mkPackage
             [ "functions" ]

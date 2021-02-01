@@ -5,15 +5,16 @@ module Toestand.Classes
   ) where
 
 import Prelude (Unit, (<$>), (>>=), flip)
-import Control.Monad (class Monad)
 import Effect (Effect)
+import Reactix (class MonadDelay)
 import Toestand.Cell as Cell
 import Toestand.Cursor as Cursor
 import Toestand.View as View
+import Toestand.Watches (Listener)
 
 class Read c v where
-  read :: forall m. Monad m => c -> m v
-  listen :: c -> (v -> v -> Effect Unit) -> Effect (Effect Unit)
+  read :: forall m. MonadDelay m => c -> m v
+  listen :: c -> (Listener v) -> Effect (Effect Unit)
   -- view   :: forall w. (v -> w) -> View 
 
 class Write c v where

@@ -5,12 +5,12 @@
 module Toestand.View (View, listen, read, subview, useView, view) where
 
 import Prelude (Unit, ($), (<$>), (<<<), (+), bind, discard)
-import Control.Monad (class Monad)
 import Data.Tuple (snd)
 import Control.Applicative (when)
 import Effect (Effect)
 import Reactix as R
 import Toestand.Cell as Cell
+import Toestand.Watches (Listener)
 
 -- | A read-only view over a cell.
 newtype View c v = View
@@ -32,17 +32,17 @@ useView :: forall c v. Cell.ShouldRefresh v -> View c v -> R.Hooks v
 useView shouldRefresh (View v) = do
   refresh <- snd <$> R.useState' 0
   R.useEffect do
-    Cell.listen v.cell $ \new old ->
-      when (shouldRefresh' new old) (refresh (_ + 1))
+    Cell.listen v.cell $ \change ->
+      when (shouldRefresh' change) (refresh (_ + 1))
   v.read <$> Cell.read v.cell
   where
-    shouldRefresh' new old = shouldRefresh (v.read new) (v.read old)
+    shouldRefresh' {new, old} = shouldRefresh {new: v.read new, old: v.read old}
 
 -- | Read the current value of the View. Can be called in either Hooks or Effet
-read :: forall m c v. Monad m => View c v -> m v
+read :: forall m c v. R.MonadDelay m => View c v -> m v
 read (View v) = v.read <$> Cell.read v.cell
 
 -- | Run an Effectful function when a change occurs. Returns a cancel effect.
-listen :: forall c v. View c v -> (v -> v -> Effect Unit) -> Effect (Effect Unit)
+listen :: forall c v. View c v -> (Listener v) -> Effect (Effect Unit)
 listen (View v) l = do
-  Cell.listen v.cell $ \new old -> l (v.read new) (v.read old)
+  Cell.listen v.cell $ \{new, old} -> l {new: v.read new, old: v.read old}

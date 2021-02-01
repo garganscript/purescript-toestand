@@ -5,14 +5,14 @@
 -- | * Selectively refresh the component.
 module Toestand.Cursor (Cursor, cursor, listen, read, subcursor, useCursor, view, write) where
 
-import Prelude (Unit, ($), (<$>), (<<<), (+), bind, discard, pure)
+import Prelude (Unit, ($), (<$>), (<<<), (+), bind, const, discard)
 import Control.Applicative (when)
-import Control.Monad (class Monad)
 import Data.Tuple (snd)
 import Effect (Effect)
 import Reactix as R
 import Toestand.Cell as Cell
 import Toestand.View as View
+import Toestand.Watches (Listener)
 
 -- | A read-write view over a cell
 newtype Cursor c v = Cursor
@@ -39,23 +39,22 @@ useCursor :: forall c v. Cell.ShouldRefresh v -> Cursor c v -> R.Hooks v
 useCursor shouldRefresh c'@(Cursor c) = do
   refresh <- snd <$> R.useState' 0
   R.useEffect do
-    Cell.listen c.cell $ \new old ->
-      when (shouldRefresh' new old) (refresh (_ + 1))
+    Cell.listen c.cell $ \change ->
+      when (shouldRefresh' change) (refresh (_ + 1))
   read c'
   where
-    shouldRefresh' new old = shouldRefresh (c.read new) (c.read old)
+    shouldRefresh' {new, old} = shouldRefresh {new: c.read new, old: c.read old}
 
 -- | Read the current value of the Cursor. Can be called in either Hooks or Effet
-read :: forall m c v. Monad m => Cursor c v -> m v
+read :: forall m c v. R.MonadDelay m => Cursor c v -> m v
 read (Cursor c) = c.read <$> Cell.read c.cell
 
 -- | Write a new value into the cursor, irrespective of the current value.
 write :: forall c v. v -> Cursor c v -> Effect v
 write value (Cursor c) = do
   all <- Cell.read c.cell
-  _ <- Cell.write (c.write value all) c.cell
-  pure value
+  const value <$> Cell.write (c.write value all) c.cell
 
 -- | Run an Effectful function when a change occurs. Returns a cancel effect.
-listen :: forall c v. Cursor c v -> (v -> v -> Effect Unit) -> Effect (Effect Unit)
-listen (Cursor c) l = Cell.listen c.cell $ \new old -> l (c.read new) (c.read old)
+listen :: forall c v. Cursor c v -> (Listener v) -> Effect (Effect Unit)
+listen (Cursor c) l = Cell.listen c.cell $ \{new, old} -> l {new: c.read new, old: c.read old}
