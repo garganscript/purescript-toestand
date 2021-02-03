@@ -1,6 +1,9 @@
 -- | Manages a collection of listeners which can be selectively
 -- | notified of changes to a value.
-module Toestand.Watches (Change, Listener, ShouldNotify, Watches, listen, new, notify, forceNotify) where
+module Toestand.Watches
+  ( Change, Listener, ShouldNotify, Watches
+  , listen, new, never, notify, overChange, forceNotify
+  ) where
 
 import Prelude (Unit, ($), (<$>), (>>=), (+), bind, discard, pure)
 import Control.Applicative (when)
@@ -12,11 +15,17 @@ import Effect.Ref as Ref
 -- | Passed to callbacks when the data changes
 type Change a = { new :: a, old :: a }
 
+overChange :: forall a b. (a -> a -> b) -> Change a -> b
+overChange f {new, old} = f new old
+
 -- | An Effect function which is provided the new and old values (in that order).
 type Listener a = Change a -> Effect Unit
 
 -- | A predicate which determines whether notifications should be sent (true = yes).
 type ShouldNotify a = Change a -> Boolean
+
+never :: forall a. ShouldNotify a
+never _ = false
 
 -- | A collection of listeners.
 newtype Watches a = Watches (Ref.Ref (Watches' a))

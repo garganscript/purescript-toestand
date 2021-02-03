@@ -12,4 +12,5 @@ import Toestand.Classes
   )
 import Toestand.Cell (Cell, useCell)
 import Toestand.Cursor (Cursor, cursor, subcursor, useCursor)
-import Toestand.View (View, view)
+import Toestand.View (View, view, useView)
+import Toestand.Watches (Change, Listener, ShouldNotify, never, overChange)
