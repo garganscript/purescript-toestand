@@ -1,16 +1,12 @@
 module Toestand
   ( module Toestand.Classes
-  , module Toestand.Cell
-  , module Toestand.Cursor
-  , module Toestand.View
+  , module Toestand.Types
+  , module Toestand.Cells
   ) where
 
 import Toestand.Classes
-  ( class Read, read, listen
-  , class Write, write
-  , modify
-  )
-import Toestand.Cell (Cell, useCell)
-import Toestand.Cursor (Cursor, cursor, subcursor, useCursor)
-import Toestand.View (View, view, useView)
-import Toestand.Watches (Change, Listener, ShouldNotify, never, overChange)
+  (class Read, read, listen, class Write, write)
+import Toestand.Types
+  (Change, Listener, ShouldRefresh, change, changed, unchanged)
+import Toestand.Cells
+  (Cell, Cursor, View, useCell, useView, useCursor, useLive, modify)
