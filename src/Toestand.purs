@@ -1,12 +1,10 @@
-module Toestand
-  ( module Toestand.Classes
-  , module Toestand.Types
-  , module Toestand.Cells
-  ) where
+-- | A simple way of managing a tree of state in react while retaining
+-- | full control over rerendering.
+module Toestand ( module Toestand.Types, module Toestand.Cells ) where
 
-import Toestand.Classes
-  (class Read, read, listen, class Write, write)
 import Toestand.Types
-  (Change, Listener, ShouldRefresh, change, changed, unchanged)
+  ( class Read, class Write, class ReadWrite, read, listen, write
+  , Listener, ShouldReload, Change
+  , change, changed, mapChange, unchanged, modify )
 import Toestand.Cells
-  (Cell, Cursor, View, useCell, useView, useCursor, useLive, modify)
+  ( Cell, Cursor, View, useCell, useCursor, useView, useLive )

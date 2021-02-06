@@ -1,6 +1,12 @@
 # purescript-toestand
 
-Simple state management for Reactix
+A simple way of managing a tree of state in react while retaining full
+control over rerendering.
+
+## TODO
+
+* Example code
+* Compound cell api (recombining cursors and views)
 
 ## Copyright and License
 

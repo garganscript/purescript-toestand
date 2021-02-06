@@ -1,43 +1,32 @@
 -- | Manages a collection of listeners which can be selectively
 -- | notified of changes to a value.
 module Toestand.Watches
-  ( Watches, watches, listen, notify ) where
+  ( Watches(..), watches, listen, notify, unlisten ) where
 
-import Prelude (Unit, ($), (<$>), (>>=), (+), bind, discard, pure)
-import Control.Applicative (when)
+import Prelude (pure, ($), (+), (<*))
 import Data.Map as Map
 import Data.Traversable (traverse_)
+import Data.Tuple (Tuple(..))
 import Effect (Effect)
-import Effect.Ref as Ref
 import Toestand.Types (Change, Listener)
 
--- | A collection of listeners.
-newtype Watches a = Watches (Ref.Ref (W a))
-
-data W a = W Int (Map.Map Int (Listener a))
+data Watches a = Watches Int (Map.Map Int (Listener a))
 
 -- | Create a new Watches from a should notify predicate.
-watches :: forall a. Effect (Watches a)
-watches = Watches <$> Ref.new (W 0 Map.empty)
+watches :: forall a. Watches a
+watches = Watches 0 Map.empty
 
--- | Add a change listener effect. Returns an unsubscribe effect
-listen :: forall a. Listener a -> Watches a -> Effect (Effect Unit)
-listen f (Watches ref) = do
-  (W id listeners) <- Ref.read ref
-  let new = W (id + 1) (Map.insert id f listeners)
-  Ref.write new ref
-  pure (unlisten ref id)
+-- | Add a change listener effect. Returns a key that can be used to
+-- | unlisten along with modified watches.
+listen :: forall a. Listener a -> Watches a -> (Tuple Int (Watches a))
+listen f (Watches id listeners) =
+  Tuple id $ Watches (id + 1) (Map.insert id f listeners)
 
--- Creates an unlistener effect for a listener
-unlisten :: forall a. Ref.Ref (W a) -> Int -> Effect Unit
-unlisten ref id = do
-  (W id' listeners) <- Ref.read ref
-  let new = W id' (Map.delete id listeners)
-  Ref.write new ref
+-- | Remove the provided
+unlisten :: forall a. Watches a -> Int -> Watches a
+unlisten (Watches id' ls) id = Watches id' (Map.delete id ls)
 
 -- | Call back all the listeners with a change
 notify :: forall a. Watches a -> Change a -> Effect (Change a)
-notify (Watches ref) change = do
-  (W _ listeners) <- Ref.read ref
-  traverse_ (_ $ change) (Map.values listeners)
-  pure change
+notify (Watches _ listeners) change =
+  pure change <* traverse_ (_ $ change) (Map.values listeners)
