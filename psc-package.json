@@ -7,7 +7,11 @@
     , "reactix"
     , "prelude"
     , "psci-support"
+    , "record"
     , "spec"
     , "spec-mocha"
+    , "tuples"
+    , "typelevel-prelude"
+    , "typisch"
     ]
 }

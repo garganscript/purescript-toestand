@@ -154,6 +154,11 @@ let additions =
             ]
             "https://github.com/poorscript/purescript-reactix"
             "v0.4.11"
+      , typisch =
+          mkPackage
+          [ "prelude" ]
+          "https://github.com/poorscript/purescript-typisch"
+          "v0.2.0"
       , inflection =
           mkPackage
             [ "functions" ]

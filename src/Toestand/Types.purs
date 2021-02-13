@@ -1,26 +1,26 @@
 module Toestand.Types
   ( class Read, class Write, class ReadWrite, read, listen, write
   , Listener, ShouldReload, Change
-  , change, changed, mapChange, unchanged, modify
+  , change, changed, mapChange, unchanged, unequal, modify
   ) where
 
-import Prelude (Unit, flip, (<$>), (>>=))
+import Prelude
 import Effect (Effect)
 import Reactix (class MonadDelay)
 
 -- | A `Cell`-like container that can be read from
-class Read cell val where
+class Read cell val | cell -> val where
   -- | Read the current value. Will never cause a refresh.
   read :: forall m. MonadDelay m => cell -> m val
   -- | Be called back whenever something changes
   listen :: Listener val -> cell -> Effect (Effect Unit)
 
 -- | A `Cell`-like container that can be written to.
-class Write cell val where
+class Write cell val | cell -> val where
   -- | Write a new value into the cell.
   write :: val -> cell -> Effect val
 
-class (Read cell val, Write cell val) <= ReadWrite cell val
+class (Read cell val, Write cell val) <= ReadWrite cell val | cell -> val
 
 instance readWrite :: (Read cell val, Write cell val) => ReadWrite cell val
 
@@ -48,6 +48,10 @@ mapChange f { new, old } = { new: f new, old: f old }
 -- | Adapt a change function to a positional function. new first.
 unchanged :: forall a b. (Change a -> b) -> a -> a -> b
 unchanged f new old = f { new, old }
+
+-- | An equality based refresh predicate
+unequal :: forall v. Eq v => Change v -> Effect Boolean
+unequal { new, old } = pure (new `notEq` old)
 
 -- | Change the value in a Cell by applying a function to it.
 modify :: forall c v. ReadWrite c v => (v -> v) -> c -> Effect v
