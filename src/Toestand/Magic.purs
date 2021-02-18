@@ -2,13 +2,14 @@
 -- | or views...) that contain records.
 module Toestand.Magic
   ( class FieldCursors, class FieldViews, fieldCursors, fieldViews
-  , useFieldCursors, useFieldCursors', useFieldViews, useFieldViews' ) where
+  , useFieldCursors, useFieldCursors', useFieldViews, useFieldViews' )
+ where
 
 import Prelude
 import Reactix as R
 import Record as Record
 import Record.Builder as RB
-import Toestand.Cells as T
+import Toestand.Cursor as T
 import Toestand.Types (class Read, class ReadWrite)
 import Type.Prelude (RLProxy(..), SProxy(..))
 import Type.RowList as RowList
@@ -25,9 +26,8 @@ useFieldCursors
   => ReadWrite cell (Record c)
   => FieldCursors l out base cell
   => cell -> Record base -> R.Hooks (Record out)
-useFieldCursors cell base
-  =   (\b -> RB.build b base)
-  <$> fieldCursors (RLProxy :: RLProxy l) cell
+useFieldCursors cell base =
+  (\b -> RB.build b base) <$> fieldCursors (RLProxy :: RLProxy l) cell
 
 -- | Builder-returning variant of `useFieldCursors`
 useFieldCursors'
@@ -47,7 +47,7 @@ instance nilFieldCursors :: FieldCursors RowList.Nil base base cell where
 
 instance consFieldCursors ::
   ( ReadWrite cell (Record c)
-  , Cons label (T.Cursor cell (Record c) a) out' out
+  , Cons label (T.Cursor a) out' out
   , Cons label a b c
   , Lacks label base
   , FieldCursors tail out' base cell
@@ -56,10 +56,10 @@ instance consFieldCursors ::
     where
       rest :: R.Hooks (Builder base out')
       rest = fieldCursors (RLProxy :: RLProxy tail) cell
-      step :: T.Cursor cell (Record c) a -> Builder base out' -> Builder base out
+      step :: T.Cursor a -> Builder base out' -> Builder base out
       step cursor next = (RB.insert labelP cursor) <<< next
       labelP = SProxy :: SProxy label
-      useCursor :: R.Hooks (T.Cursor cell (Record c) a)
+      useCursor :: R.Hooks (T.Cursor a)
       useCursor = T.useCursor read write cell where
         read :: Record c -> a
         read = Record.get labelP
@@ -95,7 +95,7 @@ instance nilFieldViews :: FieldViews RowList.Nil base base cell where
 
 instance consFieldViews ::
   ( Read cell (Record c)
-  , Cons label (T.View cell (Record c) a) out' out
+  , Cons label (T.View a) out' out
   , Cons label a b c
   , Lacks label base
   , FieldViews tail out' base cell
@@ -104,10 +104,10 @@ instance consFieldViews ::
     where
       rest :: R.Hooks (Builder base out')
       rest = fieldViews (RLProxy :: RLProxy tail) cell
-      step :: T.View cell (Record c) a -> Builder base out' -> Builder base out
+      step :: T.View a -> Builder base out' -> Builder base out
       step view next = (RB.insert labelP view) <<< next
       labelP = SProxy :: SProxy label
-      useView :: R.Hooks (T.View cell (Record c) a)
+      useView :: R.Hooks (T.View a)
       useView = T.useView read cell where
         read :: Record c -> a
         read = Record.get labelP
