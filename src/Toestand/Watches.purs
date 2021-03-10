@@ -8,7 +8,7 @@ import Data.Map as Map
 import Data.Traversable (traverse_)
 import Data.Tuple (Tuple(..))
 import Effect (Effect)
-import Toestand.Types (Change, Listener)
+import Toestand.Changes (Change, Listener)
 
 data Watches a = Watches Int (Map.Map Int (Listener a))
 
