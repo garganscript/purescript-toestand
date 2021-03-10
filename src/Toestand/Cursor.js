@@ -4,7 +4,7 @@
 // purescript space and keep the type checking.
 exports._readDict       = (dict) => () => dict;
 exports._writeDict      = (dict) => () => dict;
-exports._monadDelayDict = (dict) => () => dict.pure(dict);
+exports._monadDelayDict = (dict) => () => dict;
 
 // Then we bundle up the purescript functions we've prepared into an opaque type so we can erase it.
 exports._cursor = (read) => (listen) => (write) => { read, listen, write };
