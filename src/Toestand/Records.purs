@@ -1,5 +1,5 @@
 -- | Utilities for generating focused boxes from boxes that contain records
-module Toestand.Magic
+module Toestand.Records
   ( useFocusedFields, useFocusedFields' -- useful
   , class UseFocusedFields, useFocusedFieldsImpl -- impl bullshit
   ) where

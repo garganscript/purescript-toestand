@@ -4,7 +4,7 @@ module Toestand
   ( module Toestand.Changes
   , module Toestand.Classes
   , module Toestand.Boxes
-  -- , module Toestand.Records
+  , module Toestand.Records
   ) where
 
 import Toestand.Boxes ( Box, useBox, useFocused, useLive )
@@ -14,4 +14,4 @@ import Toestand.Changes
 import Toestand.Classes
   ( class Read, class Write, class ReadWrite
   , read, listen, write, write_, modify, modify_ )
-
+import Toestand.Records (useFocusedFields, useFocusedFields')
