@@ -37,7 +37,7 @@ useFocusedFields'
   => box -> R.Hooks (RB.Builder (Record base) (Record out))
 useFocusedFields' = useFocusedFieldsImpl (RLProxy :: RLProxy l)
 
-class UseFocusedFields (list :: RowList.RowList) (out :: # Type) (base :: # Type) box
+class UseFocusedFields (list :: RowList.RowList Type) (out :: # Type) (base :: # Type) box
   | list -> out base box
   where useFocusedFieldsImpl :: RLProxy list -> box -> R.Hooks (Builder base out)
 

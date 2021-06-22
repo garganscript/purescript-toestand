@@ -1376,7 +1376,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-follow-redirects@^1.0.0, follow-redirects@^1.5.9, follow-redirects@^1.7.0:
+follow-redirects@^1.0.0, follow-redirects@^1.5.9:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
   integrity sha512-m/pZQy4Gj287eNy94nivy5wchN3Kp+Q5WgUPNy5lJSZ3sgkVKSYV/ZChMAQVIgx1SqfZ2zBZtPA2YlXIWxxJOQ==
@@ -2580,10 +2580,10 @@ public-encrypt@^4.0.0:
     randombytes "^2.0.1"
     safe-buffer "^5.1.2"
 
-pulp@^13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/pulp/-/pulp-13.0.0.tgz#ed7f4dd0e0ae20a79d4ac3621e387b4ebae4bf18"
-  integrity sha512-wjjAVuN1Shx6783NvTd8aPwWZ1pE94+isiWtdAJhedvbLqJuwe8p5CSNul9FS0WvBz7ejdrW0vc6wLDLsKX7Yw==
+pulp@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/pulp/-/pulp-15.0.0.tgz#9ceac1dd6e438ccd42133c84396b76ee22ae454f"
+  integrity sha512-JPzDiSjxwySAFOFnpevZO7YzzDgGdJP/SQap1UJbK0rsrfUVQC+zOHDkm7A8T3gR/0el4ft6KwB6fcDl2bTzVw==
   dependencies:
     browserify "^16.2.3"
     browserify-incremental "^3.1.1"
@@ -2666,10 +2666,10 @@ purescript-installer@^0.2.0:
     which "^1.3.1"
     zen-observable "^0.8.14"
 
-purescript@^0.13.8:
-  version "0.13.8"
-  resolved "https://registry.yarnpkg.com/purescript/-/purescript-0.13.8.tgz#acab6f3008d75b8046478c8c1d6124079dc96f7e"
-  integrity sha512-1ZyVEVFLgcEcjPXxJYeVEyYn66DF2DnOLTWzo/K/MrQUF2chdLSyZ8sJpcarWyrz2HxXaubYceYbo5KexKzynA==
+purescript@^0.14.2:
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/purescript/-/purescript-0.14.2.tgz#6c42c941c014c23991d7782bbaa71f1ee73aa290"
+  integrity sha512-kEXY5yUaG8a1FNN/IdtfNl4gcql7p76CPqnanMZ37GdtBZTcFK/SB24bp2rOAT1/N9qU8/corlra6uNf4+5pgQ==
   dependencies:
     purescript-installer "^0.2.0"
 
@@ -3066,12 +3066,12 @@ sourcemap-codec@^1.3.0:
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.4.tgz#c63ea927c029dd6bd9a2b7fa03b3fec02ad56e9f"
   integrity sha512-CYAPYdBu34781kLHkaW3m6b/uUSyMOC2R61gcYMWooeuaGtjof86ZA/8T+qVPPt7np1085CR9hmMGrySwEc8Xg==
 
-spago@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/spago/-/spago-0.10.0.tgz#8783febe6e701122cdc90e4a509ecf0dfa646bd7"
-  integrity sha512-hcyAVObO+ZgXZaqy0EMCZgw8+Yr+PAGpYfV77C1EuL5gcSaly4snCY6dFBIdcUq0/vYhkCuUpBUGi6Dx+rnxiw==
+spago@^0.20.3:
+  version "0.20.3"
+  resolved "https://registry.yarnpkg.com/spago/-/spago-0.20.3.tgz#f72a096456f580f6eb64fc850c371f8cb97b139f"
+  integrity sha512-R4CWLP5IbaWoNIpS1QAUuDK2LKlKYqT5gBKVZL7ILilvCwdwS72u3NbGZbvx7VCRRZz4lG7zXUkqKNow7zh6wQ==
   dependencies:
-    follow-redirects "^1.7.0"
+    request "^2.88.0"
     tar "^4.4.8"
 
 sprintf-js@~1.0.2:
