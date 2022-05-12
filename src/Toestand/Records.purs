@@ -10,7 +10,7 @@ import Record as Record
 import Record.Builder as RB
 import Toestand.Boxes (Box, useFocused)
 import Toestand.Classes (class ReadWrite)
-import Type.Prelude (RLProxy(..), SProxy(..))
+import Type.Proxy (Proxy(..))
 import Type.RowList as RowList
 import Typisch.Row (class Cons, class Lacks)
 
@@ -26,7 +26,7 @@ useFocusedFields
   => UseFocusedFields l out base box
   => box -> Record base -> R.Hooks (Record out)
 useFocusedFields box base =
-  (\b -> RB.build b base) <$> useFocusedFieldsImpl (RLProxy :: RLProxy l) box
+  (\b -> RB.build b base) <$> useFocusedFieldsImpl (Proxy :: Proxy l) box
 
 -- | Builder-returning variant of `useFocusedFields`
 useFocusedFields'
@@ -35,11 +35,11 @@ useFocusedFields'
   => ReadWrite box (Record c)
   => UseFocusedFields l out base box
   => box -> R.Hooks (RB.Builder (Record base) (Record out))
-useFocusedFields' = useFocusedFieldsImpl (RLProxy :: RLProxy l)
+useFocusedFields' = useFocusedFieldsImpl (Proxy :: Proxy l)
 
-class UseFocusedFields (list :: RowList.RowList Type) (out :: # Type) (base :: # Type) box
+class UseFocusedFields (list :: RowList.RowList Type) (out :: Row Type) (base :: Row Type) box
   | list -> out base box
-  where useFocusedFieldsImpl :: RLProxy list -> box -> R.Hooks (Builder base out)
+  where useFocusedFieldsImpl :: Proxy list -> box -> R.Hooks (Builder base out)
 
 instance nilUseFocusedFields :: UseFocusedFields RowList.Nil base base box where
   useFocusedFieldsImpl _ _ = pure identity
@@ -54,10 +54,10 @@ instance consUseFocusedFields ::
   useFocusedFieldsImpl _ box = step <$> useFocus <*> rest
     where
       rest :: R.Hooks (Builder base out')
-      rest = useFocusedFieldsImpl (RLProxy :: RLProxy tail) box
+      rest = useFocusedFieldsImpl (Proxy :: Proxy tail) box
       step :: Box a -> Builder base out' -> Builder base out
       step box' next = (RB.insert labelP box') <<< next
-      labelP = SProxy :: SProxy label
+      labelP = Proxy :: Proxy label
       useFocus :: R.Hooks (Box a)
       useFocus = useFocused read write box where
         read :: Record c -> a

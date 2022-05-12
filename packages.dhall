@@ -5,57 +5,50 @@ let overrides = {=}
 
 let additions =
       { dom-simple =
-          { dependencies =
-             [ "aff"
-             , "arrays"
-             , "effect"
-             , "ffi-simple"
-             , "maybe"
-             , "nullable"
-             , "prelude"
-             , "unsafe-coerce"
-             , "spec"
-            ]
-          , repo = "https://github.com/garganscript/purescript-dom-simple"
-          , version = "ps-15.0-upgrade"
+        { dependencies =
+          [ "effect"
+          , "ffi-simple"
+          , "maybe"
+          , "nullable"
+          , "prelude"
+          , "unsafe-coerce"
+          ]
+        , repo = "https://github.com/garganscript/purescript-dom-simple"
+        , version = "ps-15.0-upgrade"
         }
       , ffi-simple =
-        { dependencies = 
-          [ "aff"
-          , "arrays"
+        { dependencies =
+          [ "functions"
+          , "maybe"
+          , "nullable"
+          , "prelude"
+          , "unsafe-coerce"
+          ]
+        , repo = "https://github.com/garganscript/purescript-ffi-simple"
+        , version = "v0.3.2"
+        }
+      , reactix =
+        { dependencies =
+          [ "dom-simple"
           , "effect"
+          , "ffi-simple"
           , "foldable-traversable"
           , "functions"
           , "maybe"
           , "nullable"
           , "prelude"
-          , "refs"
-          , "spec"
+          , "strings"
           , "tuples"
           , "unsafe-coerce"
-          , "unsafe-reference" ]
-        , repo = "https://github.com/garganscript/purescript-ffi-simple"
-        , version = "v0.3.1"
-        }
-      , reactix =
-          { dependencies =
-            [ "prelude"
-            , "dom-simple"
-            , "ffi-simple"
-            , "effect"
-            , "maybe"
-            , "functions"
-            , "nullable"
-            , "unsafe-coerce"
-            ]
-          , repo = "https://github.com/garganscript/purescript-reactix"
-          , version = "v0.4.11"
+          ]
+        , repo = "https://github.com/garganscript/purescript-reactix"
+        , version = "v0.5.0"
         }
       , typisch =
           { dependencies =
             [ "prelude" ]
           , repo = "https://github.com/garganscript/purescript-typisch"
-          , version = "v0.2.0"
+          , version = "v0.3.0"
         }
       , inflection =
           { dependencies =
