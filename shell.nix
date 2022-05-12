@@ -11,8 +11,9 @@ pkgs.mkShell {
   name = "purescript-reactix-d3";
 
   buildInputs = [
-    easy-ps.purs-0_14_2
+    easy-ps.purs-0_15_0
     easy-ps.psc-package
+    easy-ps.spago
     build
     pkgs.dhall-json
   ];

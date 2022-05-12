@@ -6,7 +6,7 @@ import
       owner = "justinwoo";
       repo = "easy-purescript-nix";
       rev = "master";
-      sha256 = "051fzxd03y0c63sll2bhn0h66dywy9lw6ylyh5vq8fymvix20q94";
+      sha256 = "0x53ads5v8zqsk4r1mfpzf5913byifdpv5shnvxpgw634ifyj1kg";
     }
   ) {
   inherit pkgs;
