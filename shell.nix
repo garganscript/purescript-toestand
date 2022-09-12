@@ -8,11 +8,12 @@ let
   '';
 in
 pkgs.mkShell {
-  name = "purescript-reactix-d3";
+  name = "purescript-toestand";
 
   buildInputs = [
     easy-ps.purs-0_15_4
     easy-ps.psc-package
+    easy-ps.spago
     build
     pkgs.dhall-json
   ];
